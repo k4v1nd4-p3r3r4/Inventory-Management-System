@@ -3,6 +3,7 @@
 @section('content')
 <div class="card card-md">
     <div class="card-body">
+        {{-- <h1 class="h1 text-center mb-4">Inventory Managemant System</h1> --}}
         <h2 class="h2 text-center mb-4">
             Login to your account
         </h2>

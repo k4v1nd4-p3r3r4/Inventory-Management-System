@@ -49,7 +49,7 @@
                 </button>
                 <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset('static/logo.svg') }}" width="110" height="32" alt="Tabler"
+                        <img src="{{ asset('static/LG_symbol.svg') }}" width="110" height="32" alt="LG Lanka"
                             class="navbar-brand-image">
                     </a>
                 </h1>
@@ -484,7 +484,7 @@
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-xl">
                     <div class="row text-center align-items-center flex-row-reverse">
-                        <div class="col-lg-auto ms-lg-auto">
+                        {{-- <div class="col-lg-auto ms-lg-auto">
                             <ul class="list-inline list-inline-dots mb-0">
                                 <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank"
                                         class="link-secondary" rel="noopener">Documentation</a></li>
@@ -509,17 +509,17 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                             <ul class="list-inline list-inline-dots mb-0">
                                 <li class="list-inline-item">
                                     Copyright &copy; {{ now()->year }}
-                                    <a href="." class="link-secondary">Tabler</a>.
+                                    <a href="." class="link-secondary">LG Lanka Inventory Management System</a>.
                                     All rights reserved.
                                 </li>
                                 <li class="list-inline-item">
                                     <a href="./changelog.html" class="link-secondary" rel="noopener">
-                                        v1.0.0-beta19
+                                        v1.0.0
                                     </a>
                                 </li>
                             </ul>
