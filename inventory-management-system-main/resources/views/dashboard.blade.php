@@ -217,9 +217,9 @@
                                             <div class="font-weight-medium">
                                                 {{ $orders }} Orders
                                             </div>
-                                            <div class="text-muted">
+                                            {{-- <div class="text-muted">
                                                 {{ $todayOrders }} shipped
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
