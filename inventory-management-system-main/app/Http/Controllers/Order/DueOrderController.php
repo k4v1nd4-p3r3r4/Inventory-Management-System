@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Models\Customer;
 use App\Models\Order;
-use App\Models\OrderDetails;
-use App\Models\Product;
-use App\Models\User;
-use App\Http\Controllers\Controller;
-use App\Mail\StockAlert;
+use App\Models\Customer;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 class DueOrderController extends Controller
 {
     public function index()
@@ -18,7 +14,7 @@ class DueOrderController extends Controller
         $orders = Order::where('due', '>', '0')
             ->latest()
             ->with('customer')
-            ->get();
+            ->paginate();
 
         return view('due.index', [
             'orders' => $orders
@@ -60,36 +56,8 @@ class DueOrderController extends Controller
         $paidDue = $mainDue - $validatedData['pay'];
         $paidPay = $mainPay + $validatedData['pay'];
 
-        $order->update([
-            'due' => $paidDue,
-            'pay' => $paidPay
-        ]);
-        // no more due
-        if ($paidDue == 0) {
-            $order->update([
-                'order_status' => 1
-            ]);
-            $products = OrderDetails::where('order_id', $order->id)->get();
+        DB::update("UPDATE orders SET due = ?, pay = ? WHERE id = ?", [$paidDue, $paidPay, $order->id]);
 
-            $stockAlertProducts = [];
-
-            foreach ($products as $product) {
-                $productEntity = Product::where('id', $product->product_id)->first();
-                $newQty = $productEntity->quantity - $product->quantity;
-                if ($newQty < $productEntity->quantity_alert) {
-                    $stockAlertProducts[] = $productEntity;
-                }
-                $productEntity->update(['quantity' => $newQty]);
-            }
-
-            if (count($stockAlertProducts) > 0) {
-                $listAdmin = [];
-                foreach (User::all('email') as $admin) {
-                    $listAdmin [] = $admin->email;
-                }
-                Mail::to($listAdmin)->send(new StockAlert($stockAlertProducts));
-            }
-        }
 
         return redirect()
             ->route('due.index')

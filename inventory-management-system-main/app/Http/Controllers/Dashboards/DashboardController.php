@@ -1,42 +1,41 @@
 <?php
 
 namespace App\Http\Controllers\Dashboards;
-
+use Illuminate\Support\Facades\DB;
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Quotation;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $orders = Order::where("user_id", auth()->id())->count();
-        $products = Product::where("user_id", auth()->id())->count();
-
-        $purchases = Purchase::where("user_id", auth()->id())->count();
-        $todayPurchases = Purchase::whereDate('date', today()->format('Y-m-d'))->count();
-        $todayProducts = Product::whereDate('created_at', today()->format('Y-m-d'))->count();
-        $todayQuotations = Quotation::whereDate('created_at', today()->format('Y-m-d'))->count();
-        $todayOrders = Order::whereDate('created_at', today()->format('Y-m-d'))->count();
-
-        $categories = Category::where("user_id", auth()->id())->count();
-        $quotations = Quotation::where("user_id", auth()->id())->count();
-
+        $orders = DB::select("SELECT COUNT(*) as count FROM orders")[0]->count;
+        $completedOrders = DB::select("SELECT COUNT(*) as count FROM orders WHERE order_status = 'COMPLETE'")[0]->count;
+        
+        $products = DB::select("SELECT COUNT(*) as count FROM products")[0]->count;
+        
+        $purchases = DB::select("SELECT COUNT(*) as count FROM purchases")[0]->count;
+        $todayPurchases = DB::select("SELECT COUNT(*) as count FROM purchases WHERE date = CURDATE()")[0]->count;
+        
+        $categories = DB::select("SELECT COUNT(*) as count FROM categories")[0]->count;
+        
+        $quotations = DB::select("SELECT COUNT(*) as count FROM quotations")[0]->count;
+        $todayQuotations = DB::select("SELECT COUNT(*) as count FROM quotations WHERE date = CURDATE()")[0]->count;
+        
         return view('dashboard', [
             'products' => $products,
             'orders' => $orders,
+            'completedOrders' => $completedOrders,
             'purchases' => $purchases,
             'todayPurchases' => $todayPurchases,
-            'todayProducts' => $todayProducts,
-            'todayQuotations' => $todayQuotations,
-            'todayOrders' => $todayOrders,
             'categories' => $categories,
-            'quotations' => $quotations
+            'quotations' => $quotations,
+            'todayQuotations' => $todayQuotations,
         ]);
     }
 }

@@ -1,23 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Invoice\StoreInvoiceRequest;
 use App\Models\Customer;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use App\Http\Requests\Invoice\StoreInvoiceRequest;
 
 class InvoiceController extends Controller
 {
     public function create(StoreInvoiceRequest $request, Customer $customer)
     {
-        $customer = Customer::where('id', $request->get('customer_id'))
-            ->first();
+        $customer = collect(DB::select("SELECT * FROM customers WHERE id = ? LIMIT 1", [$request->get('customer_id')]));
 
-        $carts = Cart::content();
 
-        return view('invoices.create', [
+        return view('invoices.index', [
             'customer' => $customer,
-            'carts' => $carts
+            'carts' => Cart::instance('order')->content(),
         ]);
     }
 }

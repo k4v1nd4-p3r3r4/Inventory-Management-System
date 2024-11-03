@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Order;
-
+use Illuminate\Support\Facades\DB;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -11,10 +11,14 @@ class OrderPendingController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $orders = Order::where('order_status', OrderStatus::PENDING)
-            ->latest()
-            ->with('customer')
-            ->get();
+        $orders = collect(DB::select("
+        SELECT orders.*, customers.*
+        FROM orders
+        JOIN customers ON orders.customer_id = customers.id
+        WHERE orders.order_status = 'PENDING'
+        ORDER BY orders.created_at DESC
+    "));
+    
 
         return view('orders.pending-orders', [
             'orders' => $orders

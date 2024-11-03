@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +13,8 @@ class UserController extends Controller
     public function index()
     {
         // TODO: Select columns
-        $users = User::all();
+        $users = collect(DB::select("SELECT * FROM users"));
+
 
         return view('users.index', [
             'users' => $users
@@ -50,7 +51,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         return view('users.show', [
-           'user' => $user
+            'user' => $user
         ]);
     }
 
