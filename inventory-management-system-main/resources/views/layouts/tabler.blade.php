@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
+
     <title>{{ config('app.name') }}</title>
 
     <!-- CSS files -->
@@ -15,6 +17,9 @@
     <link href="{{ asset('dist/css/tabler-payments.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/tabler-vendors.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/demo.min.css') }}" rel="stylesheet" />
+
+    {{-- add chart by kavinda --}}
+    <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}" defer></script>
 
     <style>
         @import url('https://rsms.me/inter/inter.css');
@@ -537,6 +542,8 @@
     <script src="{{ asset('dist/js/demo.min.js') }}" defer></script>
     {{-- - Page Scripts - --}}
     @stack('page-scripts')
+
+
 
     @livewireScripts
 </body>

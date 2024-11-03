@@ -31,6 +31,7 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
+
                 {{-- -
                 <div class="col-sm-6 col-lg-3">
                     <div class="card">
@@ -697,6 +698,44 @@
                     </div>
                 </div>
                 - --}}
+
+                {{-- add new chart by kavinda  --}}
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Orders & Purchases Statistics</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="ordersAndPurchasesChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Monthly Orders</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="monthlyOrdersChart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Monthly Purchases</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="monthlyPurchasesChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- end chart of kavinda --}}
             </div>
         </div>
     </div>
@@ -707,6 +746,83 @@
     <script src="{{ asset('dist/libs/jsvectormap/dist/js/jsvectormap.min.js') }}" defer></script>
     <script src="{{ asset('dist/libs/jsvectormap/dist/maps/world.js') }}" defer></script>
     <script src="{{ asset('dist/libs/jsvectormap/dist/maps/world-merc.js') }}" defer></script>
+    {{-- add by kavinda --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Combined Orders and Purchases Chart
+            var combinedChart = new ApexCharts(document.querySelector("#ordersAndPurchasesChart"), {
+                chart: {
+                    type: 'line',
+                    height: 350
+                },
+                series: [{
+                    name: 'Orders',
+                    data: {!! json_encode($monthlyOrders->pluck('count')) !!}
+                }, {
+                    name: 'Purchases',
+                    data: {!! json_encode($monthlyPurchases->pluck('count')) !!}
+                }],
+                xaxis: {
+                    categories: {!! json_encode($monthlyOrders->pluck('month')) !!},
+                },
+                colors: [tabler.getColor("primary"), tabler.getColor("danger")],
+                legend: {
+                    position: 'top'
+                },
+                stroke: {
+                    width: 2,
+                    curve: 'smooth'
+                },
+            });
+            combinedChart.render();
+
+            // Monthly Orders Chart
+            var ordersChart = new ApexCharts(document.querySelector("#monthlyOrdersChart"), {
+                chart: {
+                    type: 'bar',
+                    height: 300
+                },
+                series: [{
+                    name: 'Orders',
+                    data: {!! json_encode($monthlyOrders->pluck('total')) !!}
+                }],
+                xaxis: {
+                    categories: {!! json_encode($monthlyOrders->pluck('month')) !!},
+                },
+                colors: [tabler.getColor("primary")],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: false,
+                    }
+                },
+            });
+            ordersChart.render();
+
+            // Monthly Purchases Chart
+            var purchasesChart = new ApexCharts(document.querySelector("#monthlyPurchasesChart"), {
+                chart: {
+                    type: 'bar',
+                    height: 300
+                },
+                series: [{
+                    name: 'Purchases',
+                    data: {!! json_encode($monthlyPurchases->pluck('total')) !!}
+                }],
+                xaxis: {
+                    categories: {!! json_encode($monthlyPurchases->pluck('month')) !!},
+                },
+                colors: [tabler.getColor("danger")],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: false,
+                    }
+                },
+            });
+            purchasesChart.render();
+        });
+        </script>
 @endpush
 
 @pushonce('page-scripts')
