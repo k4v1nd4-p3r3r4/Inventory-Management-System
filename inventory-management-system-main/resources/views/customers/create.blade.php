@@ -69,11 +69,11 @@
 
                                         <select class="form-select form-control-solid @error('bank_name') is-invalid @enderror" id="bank_name" name="bank_name">
                                             <option selected="" disabled="">Select a bank:</option>
-                                            <option value="BRI" @if(old('bank_name') == 'BRI')selected="selected"@endif>BRI</option>
-                                            <option value="BNI" @if(old('bank_name') == 'BNI')selected="selected"@endif>BNI</option>
-                                            <option value="BCA" @if(old('bank_name') == 'BCA')selected="selected"@endif>BCA</option>
-                                            <option value="BSI" @if(old('bank_name') == 'BSI')selected="selected"@endif>BSI</option>
-                                            <option value="Mandiri" @if(old('bank_name') == 'Mandiri')selected="selected"@endif>Mandiri</option>
+                                            <option value="BRI" @if(old('bank_name') == 'RDB ')selected="selected"@endif>RDB</option>
+                                            <option value="BNI" @if(old('bank_name') == 'BOC')selected="selected"@endif>BOC</option>
+                                            <option value="BCA" @if(old('bank_name') == 'DFCC')selected="selected"@endif>DFCC</option>
+                                            <option value="BSI" @if(old('bank_name') == 'HNB')selected="selected"@endif>HNB</option>
+                                            <option value="Mandiri" @if(old('bank_name') == 'RDB')selected="selected"@endif>RDB</option>
                                         </select>
 
                                         @error('bank_name')

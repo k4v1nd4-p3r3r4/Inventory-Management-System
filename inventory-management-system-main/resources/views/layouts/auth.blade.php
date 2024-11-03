@@ -54,7 +54,7 @@
         <div class="page page-center">
             <div class="container container-tight py-4">
                 <div class="text-center mb-4">
-                    <a href="{{ url('/') }}" class="navbar-brand navbar-brand-autodark">
+                    <a href="{{ url('https://www.lg.com/lk') }}" class="navbar-brand navbar-brand-autodark">
                         <img src="{{ asset('static/LG_symbol.svg') }}" width="200" height="32"  class="navbar-brand-image">
                         {{-- <span class="navbar-brand-text">Inventory Managemant System</span>
                         {{-- <h1>Inventory Management System</h1> --}}
