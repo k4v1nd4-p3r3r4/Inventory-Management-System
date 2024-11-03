@@ -28,25 +28,27 @@ class DashboardController extends Controller
         $todayQuotations = DB::select("SELECT COUNT(*) as count FROM quotations WHERE date = CURDATE()")[0]->count;
 
         $monthlyOrders = collect(DB::select("
-        SELECT
-            COUNT(*) as count,
-            SUM(total) as total,
-            DATE_FORMAT(order_date, '%M %Y') as month
-        FROM orders
-        GROUP BY month
-        ORDER BY order_date
-        LIMIT 12
+       SELECT
+    COUNT(*) as count,
+    SUM(total) as total,
+    DATE_FORMAT(order_date, '%M %Y') as month
+FROM orders
+GROUP BY month
+ORDER BY MIN(order_date)
+LIMIT 12;
+
     "));
 
     $monthlyPurchases = collect(DB::select("
-        SELECT
-            COUNT(*) as count,
-            SUM(total_amount) as total,
-            DATE_FORMAT(date, '%M %Y') as month
-        FROM purchases
-        GROUP BY month
-        ORDER BY date
-        LIMIT 12
+       SELECT
+    COUNT(*) as count,
+    SUM(total_amount) as total,
+    DATE_FORMAT(date, '%M %Y') as month
+FROM purchases
+GROUP BY month
+ORDER BY MIN(date)
+LIMIT 12;
+
     "));
 
 
