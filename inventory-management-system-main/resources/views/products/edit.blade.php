@@ -19,7 +19,9 @@
         <div class="container-xl">
             <div class="row row-cards">
 
-                <form action="{{ route('products.update', $product->uuid) }}" method="POST" enctype="multipart/form-data">
+                @if(isset($product)) {{-- add by kavinda --}}
+                {{-- <form action="{{ route('products.update', $product->uuid) }}" method="POST" enctype="multipart/form-data"> --}}
+                    <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('put')
 
@@ -285,6 +287,9 @@
                         </div>
                     </div>
                 </form>
+                @else
+                <p>Product not found.</p>
+                @endif
             </div>
         </div>
     </div>
