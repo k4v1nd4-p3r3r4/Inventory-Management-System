@@ -69,6 +69,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('products/export/', [ProductExportController::class, 'create'])->name('products.export.store');
     Route::resource('/products', ProductController::class);
 
+    // add product edit route kavinda
+    // Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    // Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+
     // Route POS
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
     Route::post('/pos/cart/add', [PosController::class, 'addCartItem'])->name('pos.addCartItem');

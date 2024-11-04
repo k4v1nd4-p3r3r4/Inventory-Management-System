@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
         $orders = DB::select("SELECT * FROM order_count_view")[0]->count;
         $completedOrders = DB::select("SELECT * FROM completed_orders_count")[0]->count;
         $products = DB::select("SELECT * FROM products_count")[0]->count;
@@ -22,7 +23,7 @@ class DashboardController extends Controller
         $categories = DB::select("SELECT * FROM categories_count")[0]->count;
         $quotations = DB::select("SELECT * FROM quotations_count")[0]->count;
         $todayQuotations = DB::select("SELECT * FROM today_quotations_count")[0]->count;
-        
+
         $monthlyOrders = collect(DB::select("
        SELECT
     COUNT(*) as count,

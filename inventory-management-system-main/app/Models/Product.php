@@ -45,6 +45,12 @@ class Product extends Model
         return 'slug';
     }
 
+    // add by kavinda
+    // public function getRouteKeyuuid()
+    // {
+    //     return 'uuid';
+    // }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
