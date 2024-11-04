@@ -85,11 +85,11 @@
                         {{ $customer->created_at->diffForHumans() }}
                     </td>
                     <td class="align-middle text-center">
-                        <x-button.show class="btn-icon" route="{{ route('customers.show', $customer->uuid) }}"/>
-                        <x-button.edit class="btn-icon" route="{{ route('customers.edit', $customer->uuid) }}"/>
+                        <x-button.show class="btn-icon" route="{{ route('customers.show', $customer) }}"/>
+                        <x-button.edit class="btn-icon" route="{{ route('customers.edit', $customer) }}"/>
                         <x-button.delete 
                             class="btn-icon" 
-                            route="{{ route('customers.destroy', $customer->uuid) }}" 
+                            route="{{ route('customers.destroy', $customer) }}" 
                             onclick="return confirm('Are you sure to remove {{ $customer->name }} ?')"
                         />
                     </td>

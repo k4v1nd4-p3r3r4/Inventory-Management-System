@@ -104,11 +104,11 @@
                         </span>
                     </td>
                     <td class="align-middle text-center">
-                        <x-button.show class="btn-icon" route="{{ route('suppliers.show', $supplier->uuid) }}"/>
-                        <x-button.edit class="btn-icon" route="{{ route('suppliers.edit', $supplier->uuid) }}"/>
+                        <x-button.show class="btn-icon" route="{{ route('suppliers.show', $supplier) }}"/>
+                        <x-button.edit class="btn-icon" route="{{ route('suppliers.edit', $supplier) }}"/>
                         <x-button.delete 
                             class="btn-icon" 
-                            route="{{ route('suppliers.destroy', $supplier->uuid) }}" 
+                            route="{{ route('suppliers.destroy', $supplier) }}" 
                             onclick="return confirm('Are you sure to remove supplier {{ $supplier->name }} ?!')"
                         />
                     </td>
