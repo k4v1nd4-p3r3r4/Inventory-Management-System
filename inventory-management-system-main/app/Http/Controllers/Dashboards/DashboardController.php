@@ -14,7 +14,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $orders = DB::select("SELECT COUNT(*) as count FROM orders")[0]->count;
+        $orders = DB::select("SELECT COUNT(*) as count FROM orders")[0]->count; // error in db
+
         $completedOrders = DB::select("SELECT COUNT(*) as count FROM orders WHERE order_status = 'COMPLETE'")[0]->count;
 //
         $products = DB::select("SELECT COUNT(*) as count FROM products")[0]->count;
