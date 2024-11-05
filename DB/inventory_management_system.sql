@@ -99,13 +99,20 @@ SELECT fn_TodayQuotationsCount();
 
 -- views =======================================================================================================
 
+-- MonthlyOrders ------------------------------
 CREATE VIEW vw_MonthlyOrders AS
 SELECT COUNT(*) AS order_count, DATE_FORMAT(order_date, '%M %Y') AS month_year, SUM(total) AS total_amount
 FROM orders 
 GROUP BY DATE_FORMAT(order_date, '%M %Y')
 ORDER BY MIN(order_date) DESC LIMIT 12;
 
-SELECT * FROM vw_MonthlyOrders;
+-- MonthlyPurchases --------------------------
+CREATE VIEW vw_MonthlyPurchases AS
+SELECT COUNT(*) AS purchase_count, DATE_FORMAT(date, '%M %Y') AS month_year, SUM(total_amount) AS total_amount
+FROM purchases 
+GROUP BY DATE_FORMAT(date, '%M %Y')
+ORDER BY MIN(date) DESC LIMIT 12;
+
 
 -- indexes --
 CREATE INDEX idx_product_name ON products(name);

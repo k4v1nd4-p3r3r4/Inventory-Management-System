@@ -29,27 +29,9 @@ class DashboardController extends Controller
         // $quotations = DB::select("SELECT fn_QuotationsCount()");
         // $todayQuotations = DB::select("SELECT fn_TodayQuotationsCount()");
 
-        $monthlyOrders = collect(DB::select("
-            SELECT
-            COUNT(*) as count,
-            SUM(total) as total,
-            DATE_FORMAT(order_date, '%M %Y') as month
-            FROM orders
-            GROUP BY month
-            ORDER BY MIN(order_date)
-         LIMIT 12;"));
+        $monthlyOrders = collect(DB::select("SELECT * FROM vw_MonthlyOrders;"));
 
-        $monthlyPurchases = collect(DB::select("
-            SELECT
-            COUNT(*) as count,
-            SUM(total_amount) as total,
-            DATE_FORMAT(date, '%M %Y') as month
-            FROM purchases
-            GROUP BY month
-            ORDER BY MIN(date)
-            LIMIT 12;
-
-    "));
+        $monthlyPurchases = collect(DB::select("SELECT * FROM vw_MonthlyPurchases;"));
 
 
         return view('dashboard', [
