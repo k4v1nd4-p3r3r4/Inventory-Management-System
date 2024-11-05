@@ -544,7 +544,6 @@
     @stack('page-scripts')
 
 
-
     @livewireScripts
 </body>
 

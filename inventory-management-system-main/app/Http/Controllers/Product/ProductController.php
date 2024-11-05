@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         $categories = collect(DB::select("SELECT id, name FROM categories"));
         $units = collect(DB::select("SELECT id, name FROM units"));
-        
+
         if ($request->has('category')) {
             $categories = Category::whereSlug($request->get('category'))->get();
         }

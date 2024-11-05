@@ -88,7 +88,7 @@ class OrderController extends Controller
         }
         DB::update("UPDATE orders SET order_status = ? WHERE id = ?", ['COMPLETE', $order->id]);
 
-       
+
 
         return redirect()
             ->route('orders.complete')
@@ -109,7 +109,7 @@ class OrderController extends Controller
         LEFT JOIN order_details ON orders.id = order_details.order_id
         WHERE orders.id = ?
     ", [$order])); // Replace $order with the actual order ID variable.
-    
+
 
         return view('orders.print-invoice', [
             'order' => $order,
