@@ -69,8 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/products', ProductController::class);
 
     // add product edit route kavinda
-    // Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    // Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
     // Route POS
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
