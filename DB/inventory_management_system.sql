@@ -42,7 +42,7 @@ SELECT fn_OrdersCount();
 -- 4 count the Purchases-> fn_PurchsesCount() =====================================================
 
 DELIMITER #
-CREATE FUNCTION fn_PurchsesCount() RETURNS INT DETERMINISTIC
+CREATE FUNCTION fn_PurchasesCount() RETURNS INT DETERMINISTIC
 BEGIN
 	DECLARE purchsesCount INT;
     SELECT COUNT(id) INTO purchsesCount FROM inventory_management_system.purchases;
@@ -50,13 +50,13 @@ BEGIN
 END #
 DELIMITER ;
 
-SELECT fn_PurchsesCount();
+SELECT fn_PurchasesCount();
 
 
 -- 5 count the Today Purchases-> fn_TodayPurchsesCount() =====================================================
 
 DELIMITER #
-CREATE FUNCTION fn_TodayPurchsesCount() RETURNS INT DETERMINISTIC
+CREATE FUNCTION fn_TodayPurchasesCount() RETURNS INT DETERMINISTIC
 BEGIN
 	DECLARE todayPurchsesCount INT;
     SELECT COUNT(id) INTO todayPurchsesCount FROM inventory_management_system.purchases WHERE STR_TO_DATE(date, '%Y-%m-%d') = current_date();
@@ -64,7 +64,7 @@ BEGIN
 END #
 DELIMITER ;
 
-SELECT fn_TodayPurchsesCount();
+SELECT fn_TodayPurchasesCount();
 
 -- 6 count the Quotations-> fn_QuotationsCount() =====================================================
 
@@ -94,7 +94,21 @@ DELIMITER ;
 
 SELECT fn_TodayQuotationsCount();
 
+
+
+
+-- views =======================================================================================================
+
+CREATE VIEW vw_MonthlyOrders AS
+SELECT COUNT(*) AS order_count, DATE_FORMAT(order_date, '%M %Y') AS month_year, SUM(total) AS total_amount
+FROM orders 
+GROUP BY DATE_FORMAT(order_date, '%M %Y')
+ORDER BY MIN(order_date) DESC LIMIT 12;
+
+SELECT * FROM vw_MonthlyOrders;
+
 -- indexes --
 CREATE INDEX idx_product_name ON products(name);
 
 CREATE UNIQUE INDEX idx_unique_invoice_no ON orders(invoice_no);
+CREATE INDEX idx_composite_order_date_total ON orders(order_date,total);
