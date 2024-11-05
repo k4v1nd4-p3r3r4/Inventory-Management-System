@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -16,7 +15,6 @@ class ProductController extends Controller
     public function index()
     {
         $products =collect( DB::select("SELECT id, name FROM products LIMIT 1"));
-
         return view('products.index', [
             'products' => $products,
         ]);
