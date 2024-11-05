@@ -16,7 +16,7 @@
                             <div class="dropdown">
                                 <a href="#" class="btn-action dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false"><!-- Download SVG icon from http://tabler-icons.io/i/dots-vertical -->
+                                    aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round">
@@ -27,28 +27,23 @@
                                     </svg>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" style="">
+                                <div class="dropdown-menu dropdown-menu-end">
                                     <form action="{{ route('orders.update', $order->uuid) }}" method="POST">
                                         @csrf
                                         @method('put')
-
                                         <button type="submit" class="dropdown-item text-success"
                                             onclick="return confirm('Are you sure you want to approve this order?')">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-check" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M5 12l5 5l10 -10" />
                                             </svg>
-
                                             {{ __('Approve Order') }}
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         @endif
-                        
+
                         <x-action.close route="{{ route('orders.index') }}" />
                     </div>
                 </div>
@@ -56,36 +51,21 @@
                 <div class="card-body">
                     <div class="row row-cards mb-3">
                         <div class="col">
-                            <label for="order_date" class="form-label required">
-                                {{ __('Order Date') }}
-                            </label>
-                            <input type="text" id="order_date" class="form-control"
-                                value="{{ $order->order_date->format('d-m-Y') }}" disabled>
+                            <label for="order_date" class="form-label required">{{ __('Order Date') }}</label>
+                            <input type="text" id="order_date" class="form-control" value="{{ \Carbon\Carbon::parse($order->order_date)->format('d-m-Y') }}" disabled>
+
                         </div>
-
                         <div class="col">
-                            <label for="invoice_no" class="form-label required">
-                                {{ __('Invoice No.') }}
-                            </label>
-                            <input type="text" id="invoice_no" class="form-control" value="{{ $order->invoice_no }}"
-                                disabled>
+                            <label for="invoice_no" class="form-label required">{{ __('Invoice No.') }}</label>
+                            <input type="text" id="invoice_no" class="form-control" value="{{ $order->invoice_no }}" disabled>
                         </div>
-
                         <div class="col">
-                            <label for="customer" class="form-label required">
-                                {{ __('Customer') }}
-                            </label>
-                            <input type="text" id="customer" class="form-control" value="{{ $order->customer->name }}"
-                                disabled>
+                            <label for="customer" class="form-label required">{{ __('Customer') }}</label>
+                            <input type="text" id="customer" class="form-control" value="{{ $order->customer_name }}" disabled>
                         </div>
-
                         <div class="col">
-                            <label for="payment_type" class="form-label required">
-                                {{ __('Payment Type') }}
-                            </label>
-
-                            <input type="text" id="payment_type" class="form-control" value="{{ $order->payment_type }}"
-                                disabled>
+                            <label for="payment_type" class="form-label required">{{ __('Payment Type') }}</label>
+                            <input type="text" id="payment_type" class="form-control" value="{{ $order->payment_type }}" disabled>
                         </div>
                     </div>
 
@@ -103,38 +83,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order->details as $item)
+                                @foreach ($orderDetails as $item)
                                     <tr>
-                                        <td class="align-middle text-center">
-                                            {{ $loop->iteration }}
-                                        </td>
+                                        <td class="align-middle text-center">{{ $loop->iteration }}</td>
                                         <td class="align-middle text-center">
                                             <div style="max-height: 80px; max-width: 80px;">
-                                                <img class="img-fluid"
-                                                    src="{{ $item->product->product_image ? asset('storage/' . $item->product->product_image) : asset('assets/img/products/default.webp') }}">
+                                                <img class="img-fluid" src="{{ $item->product_image ? asset('storage/' . $item->product_image) : asset('assets/img/products/default.webp') }}">
                                             </div>
                                         </td>
-                                        <td class="align-middle text-center">
-                                            {{ $item->product->name }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            {{ $item->product->code }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            {{ $item->quantity }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            {{ number_format($item->unitcost, 2) }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            {{ number_format($item->total, 2) }}
-                                        </td>
+                                        <td class="align-middle text-center">{{ $item->product_name }}</td>
+                                        <td class="align-middle text-center">{{ $item->product_code }}</td>
+                                        <td class="align-middle text-center">{{ $item->quantity }}</td>
+                                        <td class="align-middle text-center">{{ number_format($item->unitcost, 2) }}</td>
+                                        <td class="align-middle text-center">{{ number_format($item->total, 2) }}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td colspan="6" class="text-end">
-                                        Payed amount
-                                    </td>
+                                    <td colspan="6" class="text-end">Payed amount</td>
                                     <td class="text-center">{{ number_format($order->pay, 2) }}</td>
                                 </tr>
                                 <tr>
@@ -152,10 +117,8 @@
                                 <tr>
                                     <td colspan="6" class="text-end">Status</td>
                                     <td class="text-center">
-                                        <x-status dot
-                                            color="{{ $order->order_status === \App\Enums\OrderStatus::COMPLETE ? 'green' : ($order->order_status === \App\Enums\OrderStatus::PENDING ? 'orange' : '') }}"
-                                            class="text-uppercase">
-                                            {{ $order->order_status->label() }}
+                                        <x-status dot color="{{ $order->order_status === \App\Enums\OrderStatus::COMPLETE ? 'Complete' : ($order->order_status === \App\Enums\OrderStatus::PENDING ? 'Pending' : 'Unknown') }}" class="text-uppercase">
+                                            {{ $order->order_status == \App\Enums\OrderStatus::COMPLETE ? 'Complete' : ($order->order_status == \App\Enums\OrderStatus::PENDING ? 'Pending' : 'Unknown') }}
                                         </x-status>
                                     </td>
                                 </tr>
@@ -169,16 +132,13 @@
                         <form action="{{ route('orders.update', $order->uuid) }}" method="POST">
                             @method('put')
                             @csrf
-
-                            <button type="submit" class="btn btn-success"
-                                onclick="return confirm('Are you sure you want to complete this order?')">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to complete this order?')">
                                 {{ __('Complete Order') }}
                             </button>
                         </form>
                     @endif
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

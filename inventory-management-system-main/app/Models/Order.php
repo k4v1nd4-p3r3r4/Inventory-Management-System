@@ -13,6 +13,17 @@ class Order extends Model
         'id',
     ];
 
+    public function getOrderStatusLabelAttribute()
+{
+    return match ($this->order_status) {
+        \App\Enums\OrderStatus::COMPLETE => 'Complete',
+        \App\Enums\OrderStatus::PENDING => 'Pending',
+        default => 'Unknown',
+    };
+}
+
+
+
     protected $fillable = [
         'customer_id',
         'order_date',
@@ -33,7 +44,8 @@ class Order extends Model
         'order_date'    => 'date',
         'created_at'    => 'datetime',
         'updated_at'    => 'datetime',
-        'order_status'  => OrderStatus::class
+        'order_status' => \App\Enums\OrderStatus::class,
+
     ];
 
     public function customer(): BelongsTo

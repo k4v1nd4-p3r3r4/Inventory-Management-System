@@ -65,13 +65,31 @@ class OrderController extends Controller
             ->with('success', 'Order has been created!');
     }
 
-    public function show(Order $order)
+    public function show($orderId)
     {
-        $order->loadMissing(['customer', 'details'])->get();
+        // $order->loadMissing(['customer', 'details'])->get();
 
-        return view('orders.show', [
-            'order' => $order,
-        ]);
+        // return view('orders.show', [
+        //     'order' => $order,
+        // ]);
+
+        $order = collect(DB::select("
+        SELECT orders.*, customers.name AS customer_name
+        FROM orders
+        LEFT JOIN customers ON orders.customer_id = customers.id
+        WHERE orders.id = ?", [$orderId]))->first();
+
+    $orderDetails = collect(DB::select("
+        SELECT order_details.*, products.name AS product_name
+        FROM order_details
+        LEFT JOIN products ON order_details.product_id = products.id
+        WHERE order_details.order_id = ?
+    ", [$orderId]));
+
+    return view('orders.show', [
+        'order' => $order,
+        'orderDetails' => $orderDetails,
+    ]);
     }
 
     public function update(Order $order, Request $request)
